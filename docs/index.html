@@ -221,41 +221,101 @@
       margin-bottom: 0;
     }
 
-    .stage-block .stage-videos {
-      margin-top: 0.85rem;
+    /* —— 作品分区：分类 / 作品 / 字段 层级 —— */
+    .stage-block--category {
+      margin-bottom: 2.1rem;
+      padding: 0.85rem 0.85rem 1.15rem;
+    }
+
+    .stage-block--category + .stage-block--category {
+      margin-top: 0.35rem;
+      border-top: 1px solid rgba(0, 170, 255, 0.14);
+      padding-top: 1.55rem;
+    }
+
+    .stage-block-head {
+      margin-bottom: 1.15rem;
+    }
+
+    .stage-block--category .stage-subtitle {
+      margin: 0 0 0.55rem;
+      font-size: clamp(1.25rem, 2.6vw, 1.55rem);
+      letter-spacing: 0.22em;
+    }
+
+    .stage-block-intro {
+      max-width: 40rem;
+    }
+
+    .stage-block-intro p {
+      margin: 0 0 0.35rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      line-height: 1.65;
+      color: rgba(180, 220, 245, 0.52);
+    }
+
+    .stage-block-intro p:last-child {
+      margin-bottom: 0;
+    }
+
+    .stage-works {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
     }
 
     .stage-work {
-      margin: 1.15rem 0 0;
-      padding: 0.95rem 0 0.35rem;
-      border-top: 1px solid rgba(0, 170, 255, 0.16);
-    }
-
-    .stage-work:first-of-type {
-      margin-top: 0.75rem;
-    }
-
-    .stage-block > .stage-work:first-of-type {
-      border-top-color: rgba(0, 170, 255, 0.22);
+      margin: 0;
+      padding: 1.15rem 1.15rem 1.2rem 1.2rem;
+      border: 1px solid rgba(0, 170, 255, 0.16);
+      border-left: 2px solid rgba(0, 170, 255, 0.55);
+      background:
+        linear-gradient(90deg, rgba(0, 140, 210, 0.08), transparent 55%),
+        rgba(0, 12, 24, 0.28);
     }
 
     .stage-work-title {
-      margin: 0 0 0.55rem;
+      margin: 0 0 1rem;
       font-family: "Orbitron", "Microsoft YaHei", "PingFang SC", sans-serif;
-      font-size: clamp(0.98rem, 1.8vw, 1.12rem);
+      font-size: clamp(1.12rem, 2.3vw, 1.4rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      line-height: 1.4;
+      color: #eaf7ff;
+      text-shadow: 0 0 18px rgba(0, 170, 255, 0.28);
+    }
+
+    .stage-work-section {
+      margin: 0;
+    }
+
+    .stage-work-section + .stage-work-section {
+      margin-top: 1.15rem;
+      padding-top: 1rem;
+      border-top: 1px dashed rgba(0, 170, 255, 0.16);
+    }
+
+    .stage-work-label {
+      margin: 0 0 0.55rem;
+      font-family: "Orbitron", sans-serif;
+      font-size: 0.66rem;
       font-weight: 500;
-      letter-spacing: 0.16em;
-      line-height: 1.35;
-      color: rgba(170, 230, 255, 0.92);
-      text-shadow: 0 0 14px rgba(0, 170, 255, 0.22);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(0, 190, 255, 0.78);
     }
 
     .stage-work-desc {
-      margin: 0 0 0.35rem;
+      margin: 0;
+      max-width: 46rem;
     }
 
     .stage-work-desc p {
       margin: 0 0 0.45rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(180, 220, 245, 0.78);
     }
 
     .stage-work-desc p:last-child {
@@ -263,68 +323,102 @@
     }
 
     .stage-work-link {
-      margin: 0.75rem 0 0;
-      font-size: 0.9rem;
-      letter-spacing: 0.06em;
+      margin: 0;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
     }
 
     .stage-work-link a {
-      color: #7ad8ff;
+      color: #8adcff;
       text-decoration: none;
-      border-bottom: 1px solid rgba(0, 170, 255, 0.35);
+      border-bottom: 1px solid rgba(0, 170, 255, 0.4);
       transition: color 0.2s ease, border-color 0.2s ease;
     }
 
     .stage-work-link a:hover,
     .stage-work-link a:focus-visible {
-      color: #b8f0ff;
-      border-bottom-color: rgba(180, 240, 255, 0.7);
+      color: #d8f6ff;
+      border-bottom-color: rgba(180, 240, 255, 0.75);
     }
 
-    .stage-videos {
+    .stage-media-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-      gap: 0.95rem 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr));
+      gap: 1.15rem 1.25rem;
+      width: 100%;
+      max-width: 960px;
     }
 
-    .stage-work .stage-videos {
-      margin-top: 0.75rem;
-    }
-
-    .stage-video {
+    .stage-media {
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.4rem;
       min-width: 0;
     }
 
-    .stage-video video {
+    .stage-media video,
+    .stage-media img {
       display: block;
       width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: contain;
-      background: rgba(0, 8, 16, 0.85);
-      border: 1px solid rgba(0, 170, 255, 0.28);
+      background: rgba(0, 8, 16, 0.9);
+      border: 1px solid rgba(0, 170, 255, 0.3);
       box-shadow:
         0 0 0 1px rgba(0, 170, 255, 0.06) inset,
-        0 10px 28px rgba(0, 0, 0, 0.35);
+        0 12px 32px rgba(0, 0, 0, 0.4);
     }
 
-    .stage-video-title {
+    .stage-media.is-video video {
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+    }
+
+    .stage-media.is-image img {
+      height: auto;
+      max-height: min(70vh, 560px);
+      object-fit: contain;
+      cursor: zoom-in;
+    }
+
+    .stage-media-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0 0.1rem;
+    }
+
+    .stage-media-title {
       margin: 0;
-      font-family: "Orbitron", "Microsoft YaHei", "PingFang SC", sans-serif;
-      font-size: 0.82rem;
+      font-family: "Rajdhani", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 0.88rem;
       font-weight: 500;
-      letter-spacing: 0.14em;
-      color: rgba(170, 230, 255, 0.92);
+      letter-spacing: 0.08em;
+      color: rgba(190, 230, 250, 0.82);
     }
 
-    .stage-video-note {
+    .stage-media-note {
       margin: 0;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       letter-spacing: 0.03em;
-      line-height: 1.55;
-      color: rgba(180, 220, 245, 0.62);
+      line-height: 1.5;
+      color: rgba(180, 220, 245, 0.52);
+    }
+
+    .stage-work-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    @media (max-width: 720px) {
+      .stage-media-grid {
+        grid-template-columns: 1fr;
+        max-width: none;
+      }
+
+      .stage-work {
+        padding-left: 0.9rem;
+        padding-right: 0.85rem;
+      }
     }
 
     /* 主题滚动条 */
@@ -1022,8 +1116,9 @@
     let SECTIONS = [];
     /** @type {Record<string, any>} */
     let UI = {};
-    /** 视频资源目录（相对页面路径），可在 content.js 的 media.videosDir 覆盖 */
+    /** 视频 / 图片资源目录（相对页面路径），可在 content.js 的 media 覆盖 */
     let VIDEOS_DIR = "videos/";
+    let IMAGES_DIR = "images/";
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -1064,6 +1159,9 @@
       if (media.videosDir) {
         VIDEOS_DIR = String(media.videosDir);
       }
+      if (media.imagesDir) {
+        IMAGES_DIR = String(media.imagesDir);
+      }
     }
 
     function submenuLabel(item) {
@@ -1088,20 +1186,34 @@
         .join("");
     }
 
-    function normalizeVideoItem(entry) {
+    function normalizeMediaItem(entry) {
       if (typeof entry === "string") {
         const file = entry.trim();
         if (!file) return null;
-        return { file, title: "", note: "" };
+        return { file, title: "", note: "", kind: detectMediaKind(file) };
       }
       if (!entry || typeof entry !== "object") return null;
       const file = String(entry.file || entry.src || "").trim();
       if (!file) return null;
+      const explicit = String(entry.type || entry.kind || "").toLowerCase();
       return {
         file,
         title: String(entry.title || "").trim(),
-        note: String(entry.note || entry.caption || "").trim()
+        note: String(entry.note || entry.caption || "").trim(),
+        kind: detectMediaKind(file, explicit)
       };
+    }
+
+    function detectMediaKind(file, explicit) {
+      if (explicit === "image" || explicit === "img" || explicit === "photo") {
+        return "image";
+      }
+      if (explicit === "video" || explicit === "movie" || explicit === "clip") {
+        return "video";
+      }
+      if (/\.(png|jpe?g|gif|webp|bmp|avif|svg)$/i.test(file)) return "image";
+      if (/\.(mp4|webm|ogg|ogv|mov|m4v)$/i.test(file)) return "video";
+      return "video";
     }
 
     function normalizeDescription(value) {
@@ -1122,36 +1234,120 @@
       if (typeof value === "object") {
         const url = String(value.url || value.href || "").trim();
         if (!url) return null;
-        const label = String(value.label || value.text || "访问链接").trim() || "访问链接";
+        const label =
+          String(value.label || value.text || "访问链接").trim() || "访问链接";
         return { url, label };
       }
       return null;
     }
 
-    function videosHtml(entries) {
-      const list = (entries || []).map(normalizeVideoItem).filter(Boolean);
+    /** 收集 link / links / link1… 等访问链接 */
+    function collectWorkLinks(work) {
+      const links = [];
+      const seen = new Set();
+      const push = (value) => {
+        const item = normalizeWorkLink(value);
+        if (!item || seen.has(item.url)) return;
+        seen.add(item.url);
+        links.push(item);
+      };
+
+      if (Array.isArray(work.links)) work.links.forEach(push);
+      push(work.link);
+      Object.keys(work)
+        .filter((key) => /^link\d+$/i.test(key))
+        .sort((a, b) => Number(a.replace(/\D/g, "")) - Number(b.replace(/\D/g, "")))
+        .forEach((key) => push(work[key]));
+
+      return links;
+    }
+
+    /**
+     * 统一媒体列表：优先 work.media（可打乱图片/视频顺序）
+     * 兼容旧字段 videos / images（按 videos 在前、images 在后合并）
+     */
+    function collectWorkMedia(work) {
+      if (Array.isArray(work.media) && work.media.length) {
+        return work.media.map(normalizeMediaItem).filter(Boolean);
+      }
+
+      const legacy = [];
+      if (Array.isArray(work.videos)) legacy.push(...work.videos);
+      if (Array.isArray(work.images)) legacy.push(...work.images);
+      return legacy.map(normalizeMediaItem).filter(Boolean);
+    }
+
+    function mediaMetaHtml(item) {
+      const metaBits = [];
+      if (item.title) {
+        metaBits.push(
+          `<p class="stage-media-title">${escapeHtml(item.title)}</p>`
+        );
+      }
+      if (item.note) {
+        metaBits.push(
+          `<p class="stage-media-note">${escapeHtml(item.note)}</p>`
+        );
+      }
+      if (!metaBits.length) return "";
+      return `<div class="stage-media-meta">${metaBits.join("")}</div>`;
+    }
+
+    function mediaItemHtml(item) {
+      if (item.kind === "image") {
+        const src = escapeHtml(joinMediaPath(IMAGES_DIR, item.file));
+        const alt = escapeHtml(item.title || item.file);
+        return (
+          `<figure class="stage-media is-image">` +
+            `<a href="${src}" target="_blank" rel="noopener noreferrer">` +
+              `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` +
+            `</a>` +
+            mediaMetaHtml(item) +
+          `</figure>`
+        );
+      }
+
+      const src = escapeHtml(joinMediaPath(VIDEOS_DIR, item.file));
+      return (
+        `<figure class="stage-media is-video">` +
+          `<video controls preload="metadata" playsinline src="${src}"></video>` +
+          mediaMetaHtml(item) +
+        `</figure>`
+      );
+    }
+
+    function mediaGalleryHtml(entries) {
+      const list = (entries || []).map(normalizeMediaItem).filter(Boolean);
       if (!list.length) return "";
+      return (
+        `<div class="stage-media-grid">` +
+          list.map(mediaItemHtml).join("") +
+        `</div>`
+      );
+    }
 
-      const cards = list
-        .map((item) => {
-          const src = escapeHtml(joinMediaPath(VIDEOS_DIR, item.file));
-          const title = item.title
-            ? `<p class="stage-video-title">${escapeHtml(item.title)}</p>`
-            : "";
-          const note = item.note
-            ? `<p class="stage-video-note">${escapeHtml(item.note)}</p>`
-            : "";
-          return (
-            `<figure class="stage-video">` +
-              `<video controls preload="metadata" playsinline src="${src}"></video>` +
-              title +
-              note +
-            `</figure>`
-          );
-        })
-        .join("");
+    function workSectionHtml(label, innerHtml) {
+      if (!innerHtml) return "";
+      return (
+        `<div class="stage-work-section">` +
+          `<p class="stage-work-label">${escapeHtml(label)}</p>` +
+          innerHtml +
+        `</div>`
+      );
+    }
 
-      return `<div class="stage-videos">${cards}</div>`;
+    function workLinksHtml(links) {
+      if (!links.length) return "";
+      return (
+        `<div class="stage-work-links">` +
+          links
+            .map(
+              (link) =>
+                `<p class="stage-work-link"><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a></p>`
+            )
+            .join("") +
+        `</div>`
+      );
     }
 
     function workItemHtml(work) {
@@ -1160,28 +1356,32 @@
       const description = normalizeDescription(
         work.description ?? work.desc ?? work.body
       );
-      const videos = Array.isArray(work.videos) ? work.videos : [];
-      const link = normalizeWorkLink(work.link || work.url || work.href);
-      const hasVideos = videos.map(normalizeVideoItem).some(Boolean);
-      if (!title && !description.length && !hasVideos && !link) return "";
+      const mediaList = collectWorkMedia(work);
+      const links = collectWorkLinks(work);
+      if (!title && !description.length && !mediaList.length && !links.length) {
+        return "";
+      }
 
       return (
         `<article class="stage-work">` +
           (title ? `<h4 class="stage-work-title">${escapeHtml(title)}</h4>` : "") +
-          (description.length
-            ? `<div class="stage-work-desc">${paragraphsHtml(description)}</div>`
-            : "") +
-          (hasVideos ? videosHtml(videos) : "") +
-          (link
-            ? `<p class="stage-work-link"><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a></p>`
-            : "") +
+          workSectionHtml(
+            "描述",
+            description.length
+              ? `<div class="stage-work-desc">${paragraphsHtml(description)}</div>`
+              : ""
+          ) +
+          workSectionHtml("媒体", mediaGalleryHtml(mediaList)) +
+          workSectionHtml("访问链接", workLinksHtml(links)) +
         `</article>`
       );
     }
 
     function worksHtml(entries) {
       if (!Array.isArray(entries) || !entries.length) return "";
-      return entries.map(workItemHtml).filter(Boolean).join("");
+      const items = entries.map(workItemHtml).filter(Boolean).join("");
+      if (!items) return "";
+      return `<div class="stage-works">${items}</div>`;
     }
 
     /** 分区正文：可选总述 + 与二级菜单对齐的分类块（支持作品层级） */
@@ -1197,19 +1397,43 @@
         if (!label) return;
 
         const body = typeof item === "string" ? null : item?.body;
-        const videos = typeof item === "string" ? null : item?.videos;
         const works = typeof item === "string" ? null : item?.works;
+        const categoryMedia =
+          typeof item === "string"
+            ? []
+            : collectWorkMedia({
+                media: item?.media,
+                videos: item?.videos,
+                images: item?.images
+              });
         const hasBody = Array.isArray(body) && body.length > 0;
-        const hasVideos = Array.isArray(videos) && videos.length > 0;
         const worksMarkup = worksHtml(works);
-        if (!hasBody && !hasVideos && !worksMarkup) return;
+        if (!hasBody && !categoryMedia.length && !worksMarkup) return;
+
+        const isWorksCategory = Boolean(worksMarkup) || categoryMedia.length > 0;
+
+        if (isWorksCategory) {
+          chunks.push(
+            `<section class="stage-block stage-block--category" id="stage-block-${index}" data-sub-index="${index}">` +
+              `<header class="stage-block-head">` +
+                `<h3 class="stage-subtitle">${escapeHtml(label)}</h3>` +
+                (hasBody
+                  ? `<div class="stage-block-intro">${paragraphsHtml(body)}</div>`
+                  : "") +
+              `</header>` +
+              worksMarkup +
+              (!worksMarkup && categoryMedia.length
+                ? mediaGalleryHtml(categoryMedia)
+                : "") +
+            `</section>`
+          );
+          return;
+        }
 
         chunks.push(
           `<section class="stage-block" id="stage-block-${index}" data-sub-index="${index}">` +
             `<h3 class="stage-subtitle">${escapeHtml(label)}</h3>` +
             (hasBody ? paragraphsHtml(body) : "") +
-            worksMarkup +
-            (hasVideos ? videosHtml(videos) : "") +
           `</section>`
         );
       });

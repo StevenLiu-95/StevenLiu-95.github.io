@@ -24,7 +24,8 @@ window.SITE_CONTENT = {
   },
   /** 媒体资源路径（相对 docs/index.html） */
   media: {
-    videosDir: "videos/"
+    videosDir: "videos/",
+    imagesDir: "images/"
   },
   sections: [
     {
@@ -91,8 +92,9 @@ window.SITE_CONTENT = {
        * └─ 分类（submenu.label，对应二级扇环）
        *    └─ 作品（works[]）
        *       ├─ description 描述
-       *       ├─ videos[]    视频（file 对应 videos/ 下文件名）
-       *       └─ link        访问链接（可选）
+       *       ├─ media[]     媒体（图片/视频可任意穿插；按扩展名自动识别）
+       *       │              图片文件放 images/，视频文件放 videos/
+       *       └─ link / links / link1…  访问链接（可选）
        */
       submenu: [
         {
@@ -104,25 +106,26 @@ window.SITE_CONTENT = {
               description: [
                 "个人独立游戏项目"
               ],
-              videos: [
-                { file: "ColorfulCloth1.mp4", title: "视频1" }
+              media: [
+                { file: "GoldenHall01.png" },
+                { file: "GoldenHallPV01.mp4" }
               ],
-              link: {
-                url: "https://github.com/StevenLiu-95",
-                label: "访问链接"
+              link1: {
+                url: "https://www.bilibili.com/video/BV1bH726xEc4/?share_source=copy_web&vd_source=e1553d34d671f2776233cf93d6b4aa02",
+                label: "BiliBili视频链接1"
               }
             },
             {
               title: "作品B",
               description: ["另一款独立游戏作品的简介。"],
-              videos: [
+              media: [
                 { file: "indie-b-01.mp4", title: "视频1" }
               ]
             },
             {
               title: "作品C",
               description: ["可继续追加更多作品条目。"],
-              videos: [
+              media: [
                 { file: "indie-c-01.mp4", title: "视频1" }
               ]
             }
@@ -135,7 +138,7 @@ window.SITE_CONTENT = {
             {
               title: "作品A",
               description: ["程序化生成方案与效果说明。"],
-              videos: [
+              media: [
                 { file: "pcg-a-01.mp4", title: "视频1" },
                 { file: "pcg-a-02.mp4", title: "视频2" }
               ]
@@ -149,7 +152,7 @@ window.SITE_CONTENT = {
             {
               title: "作品A",
               description: ["工具用途、技术栈与使用方式。"],
-              videos: [
+              media: [
                 { file: "tool-a-01.mp4", title: "视频1" }
               ],
               link: "https://github.com/StevenLiu-95"
@@ -163,7 +166,7 @@ window.SITE_CONTENT = {
             {
               title: "镭射布料",
               description: ["基于 Unity Shader 的镭射效果实现"],
-              videos: [
+              media: [
                 { file: "ColorfulCloth1.mp4", title: "尼龙镭射" },
                 { file: "ColorfulCloth2.mp4", title: "尼龙镭射" },
                 { file: "ColorfulCloth3.mp4", title: "镭射" },
@@ -179,7 +182,7 @@ window.SITE_CONTENT = {
             {
               title: "作品A",
               description: ["工作流与产出说明。"],
-              videos: [
+              media: [
                 { file: "aigc-a-01.mp4", title: "视频1" }
               ]
             }
@@ -192,7 +195,7 @@ window.SITE_CONTENT = {
             {
               title: "作品A",
               description: ["镜头设计与制作说明。"],
-              videos: [
+              media: [
                 { file: "anim-a-01.mp4", title: "视频1" }
               ]
             }
@@ -205,8 +208,11 @@ window.SITE_CONTENT = {
             {
               title: "作品A",
               description: ["资产类型与制作流程说明。"],
-              videos: [
-                { file: "model-a-01.mp4", title: "视频1" }
+              media: [
+                { file: "model-a-01.jpg", title: "渲染图1" },
+                { file: "model-a-01.mp4", title: "周转展示" },
+                { file: "model-a-02.jpg", title: "渲染图2" },
+                "model-a-03.png"
               ]
             }
           ]
