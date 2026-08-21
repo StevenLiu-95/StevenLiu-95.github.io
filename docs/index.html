@@ -464,20 +464,20 @@
     .ring .segment {
       fill: url(#segment-fill);
       stroke: url(#segment-stroke);
-      stroke-width: 1.2;
+      stroke-width: 1.1;
       cursor: pointer;
       pointer-events: auto;
-      transition: opacity 0.35s ease, filter 0.25s ease;
-      filter: url(#soft-glow);
+      transition: opacity 0.35s ease, filter 0.25s ease, stroke 0.25s ease, stroke-width 0.25s ease;
+      filter: url(#segment-glow);
     }
 
     .ring .segment:hover,
     .ring .segment:focus-visible,
     .ring .segment.is-active {
       fill: url(#segment-fill-hot);
-      stroke: #7ad8ff;
-      stroke-width: 1.8;
-      filter: url(#hot-glow);
+      stroke: rgba(100, 190, 230, 0.75);
+      stroke-width: 1.45;
+      filter: url(#segment-glow-hot);
     }
 
     .hub-inner.is-docked .ring .segment:not(.is-active) {
@@ -654,6 +654,71 @@
         transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    .ring .submenu-hit {
+      fill: transparent;
+      stroke: none;
+      pointer-events: fill;
+      cursor: default;
+    }
+
+    .ring .submenu.is-scrollable .submenu-hit,
+    .ring .submenu.is-scrollable .sub-item {
+      cursor: ns-resize;
+    }
+
+    .ring .submenu.is-scrollable .sub-item:hover,
+    .ring .submenu.is-scrollable .sub-item:focus-visible {
+      cursor: pointer;
+    }
+
+    /* 扇环形滚动条：位于主分区环与二级菜单之间 */
+    .ring .submenu-scrollbar {
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.22s;
+    }
+
+    .ring .submenu.is-open.is-scrollable .submenu-scrollbar {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ring .submenu.is-closing .submenu-scrollbar {
+      opacity: 0;
+      pointer-events: none;
+      transition-delay: 0s;
+    }
+
+    .ring .scrollbar-track {
+      fill: rgba(0, 80, 120, 0.32);
+      stroke: rgba(0, 160, 220, 0.38);
+      stroke-width: 0.5;
+      cursor: pointer;
+      pointer-events: fill;
+      filter: none;
+    }
+
+    .ring .scrollbar-thumb {
+      fill: rgba(55, 170, 220, 0.62);
+      stroke: rgba(130, 210, 240, 0.7);
+      stroke-width: 0.55;
+      cursor: grab;
+      pointer-events: fill;
+      filter: none;
+      transition: fill 0.2s ease, stroke 0.2s ease;
+    }
+
+    .ring .scrollbar-thumb:hover {
+      fill: rgba(75, 195, 240, 0.72);
+      stroke: rgba(160, 225, 250, 0.8);
+    }
+
+    .ring .scrollbar-thumb.is-dragging {
+      fill: rgba(95, 210, 250, 0.8);
+      stroke: rgba(190, 235, 255, 0.88);
+      cursor: grabbing;
+    }
+
     .ring .sub-btn {
       outline: none;
     }
@@ -686,6 +751,9 @@
     .ring .submenu.is-open .sub-btn:nth-child(4) .sub-item { transition-delay: 0.4s; }
     .ring .submenu.is-open .sub-btn:nth-child(5) .sub-item { transition-delay: 0.46s; }
     .ring .submenu.is-open .sub-btn:nth-child(6) .sub-item { transition-delay: 0.52s; }
+    .ring .submenu.is-open .sub-btn:nth-child(7) .sub-item { transition-delay: 0.58s; }
+    .ring .submenu.is-open .sub-btn:nth-child(8) .sub-item { transition-delay: 0.64s; }
+    .ring .submenu.is-open .sub-btn:nth-child(n+9) .sub-item { transition-delay: 0.7s; }
 
     .ring .submenu.is-closing .sub-item {
       opacity: 0;
@@ -736,6 +804,9 @@
     .ring .submenu.is-open .sub-btn:nth-child(4) .sub-label { transition-delay: 0.46s; }
     .ring .submenu.is-open .sub-btn:nth-child(5) .sub-label { transition-delay: 0.52s; }
     .ring .submenu.is-open .sub-btn:nth-child(6) .sub-label { transition-delay: 0.58s; }
+    .ring .submenu.is-open .sub-btn:nth-child(7) .sub-label { transition-delay: 0.64s; }
+    .ring .submenu.is-open .sub-btn:nth-child(8) .sub-label { transition-delay: 0.7s; }
+    .ring .submenu.is-open .sub-btn:nth-child(n+9) .sub-label { transition-delay: 0.76s; }
 
     .ring .submenu.is-closing .sub-label {
       opacity: 0;
@@ -1059,21 +1130,21 @@
     const midHotStop = ((INNER + (OUTER - INNER) * 0.4) / OUTER).toFixed(3);
     defs.innerHTML = `
       <radialGradient id="segment-fill" gradientUnits="userSpaceOnUse" cx="${CX}" cy="${CY}" r="${OUTER}">
-        <stop offset="${innerStop}" stop-color="#34c0ff" stop-opacity="0.55"/>
-        <stop offset="${midStop}" stop-color="#0a7ec8" stop-opacity="0.28"/>
-        <stop offset="0.92" stop-color="#045a96" stop-opacity="0.08"/>
+        <stop offset="${innerStop}" stop-color="#2aa8e0" stop-opacity="0.38"/>
+        <stop offset="${midStop}" stop-color="#0a6aa8" stop-opacity="0.2"/>
+        <stop offset="0.92" stop-color="#045a96" stop-opacity="0.06"/>
         <stop offset="1" stop-color="#023a60" stop-opacity="0"/>
       </radialGradient>
       <radialGradient id="segment-fill-hot" gradientUnits="userSpaceOnUse" cx="${CX}" cy="${CY}" r="${OUTER}">
-        <stop offset="${innerStop}" stop-color="#9ae8ff" stop-opacity="0.75"/>
-        <stop offset="${midHotStop}" stop-color="#20b0ff" stop-opacity="0.4"/>
-        <stop offset="0.94" stop-color="#0680c8" stop-opacity="0.12"/>
+        <stop offset="${innerStop}" stop-color="#6ec8ef" stop-opacity="0.48"/>
+        <stop offset="${midHotStop}" stop-color="#1890c8" stop-opacity="0.28"/>
+        <stop offset="0.94" stop-color="#0680c8" stop-opacity="0.1"/>
         <stop offset="1" stop-color="#024870" stop-opacity="0"/>
       </radialGradient>
       <linearGradient id="segment-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#8adfff" stop-opacity="0.95"/>
-        <stop offset="50%" stop-color="#0af" stop-opacity="0.7"/>
-        <stop offset="100%" stop-color="#4cc8ff" stop-opacity="0.9"/>
+        <stop offset="0%" stop-color="#6ab8d8" stop-opacity="0.65"/>
+        <stop offset="50%" stop-color="#0a9ad0" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#4aa8c8" stop-opacity="0.6"/>
       </linearGradient>
       <radialGradient id="core-fill" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stop-color="#b8f0ff" stop-opacity="0"/>
@@ -1112,6 +1183,30 @@
         <feMerge>
           <feMergeNode in="blur"/>
           <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="segment-glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="0.55" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 0.35 0" result="softBlur"/>
+        <feMerge>
+          <feMergeNode in="softBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="segment-glow-hot" x="-35%" y="-35%" width="170%" height="170%">
+        <feGaussianBlur stdDeviation="0.9" result="blur"/>
+        <feColorMatrix in="blur" type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 0.45 0" result="softBlur"/>
+        <feMerge>
+          <feMergeNode in="softBlur"/>
           <feMergeNode in="SourceGraphic"/>
         </feMerge>
       </filter>
@@ -1252,6 +1347,11 @@
     const SUB_INNER = OUTER + SUB_GAP;
     const SUB_OUTER = SUB_INNER + 28;
     const SUB_PAD = 0.85; // 扇区间微小缝隙，避免描边重叠
+    const SUB_MAX_VISIBLE = 5; // 可见扇区内最多容纳的按钮数，超出沿弧延伸到屏外
+    // 滚动条嵌在主分区外缘与二级菜单内缘之间的缝隙中
+    const SCROLLBAR_INNER = OUTER + 1.15;
+    const SCROLLBAR_OUTER = OUTER + 4.85;
+    const SCROLLBAR_PAD = 0.55;
     const submenuGroup = svgEl("g", {
       class: "submenu",
       "aria-label": UI.submenu?.ariaLabel || "二级菜单",
@@ -1260,16 +1360,48 @@
     ring.appendChild(submenuGroup);
 
     let submenuCloseTimer = null;
+    let scrollbarDragging = false;
+    /** @type {null | {
+     *   sectorStart: number,
+     *   slice: number,
+     *   scrollMin: number,
+     *   scroll: number,
+     *   target: number,
+     *   scrollable: boolean,
+     *   labelR: number,
+     *   thumbSpan: number,
+     *   thumb: SVGPathElement | null,
+     *   buttons: Array<{ path: SVGPathElement, text: SVGTextElement, label: string, index: number }>,
+     *   raf: number | null
+     * }} */
+    let submenuState = null;
+
+    function endScrollbarDrag() {
+      if (!scrollbarDragging) return;
+      scrollbarDragging = false;
+      if (submenuState?.thumb) {
+        submenuState.thumb.classList.remove("is-dragging");
+      }
+      window.removeEventListener("pointermove", onScrollbarPointerMove);
+      window.removeEventListener("pointerup", endScrollbarDrag);
+      window.removeEventListener("pointercancel", endScrollbarDrag);
+    }
 
     function clearSubmenu() {
+      endScrollbarDrag();
+      if (submenuState?.raf) {
+        cancelAnimationFrame(submenuState.raf);
+      }
+      submenuState = null;
       while (submenuGroup.firstChild) {
         submenuGroup.removeChild(submenuGroup.firstChild);
       }
-      submenuGroup.classList.remove("is-open", "is-closing");
+      submenuGroup.classList.remove("is-open", "is-closing", "is-scrollable");
     }
 
     /** 文字随扇区切向旋转，长标签拆成两行以免撑破窄扇环 */
     function paintSubLabel(textEl, label, x, y, midAngle) {
+      textEl.classList.remove("is-stacked", "is-compact");
       const chars = Array.from(label.trim());
       let rot = midAngle;
       // 下半圈翻转，避免倒置难读
@@ -1308,6 +1440,146 @@
       textEl.textContent = label;
     }
 
+    function normalizeAngle(angle) {
+      return ((angle % 360) + 360) % 360;
+    }
+
+    function clientToRingAngle(event) {
+      const ctm = ring.getScreenCTM();
+      if (!ctm) return 0;
+      const pt = ring.createSVGPoint();
+      pt.x = event.clientX;
+      pt.y = event.clientY;
+      const local = pt.matrixTransform(ctm.inverse());
+      return normalizeAngle(
+        (Math.atan2(local.y - CY, local.x - CX) * 180) / Math.PI + 90
+      );
+    }
+
+    function updateScrollbarThumb(scrollAngle) {
+      if (!submenuState?.thumb || !submenuState.scrollable) return;
+      const { sectorStart, scrollMin, thumbSpan, thumb } = submenuState;
+      const travel = Math.max(0, STEP - thumbSpan);
+      const progress =
+        scrollMin >= -0.001 || travel <= 0 ? 0 : scrollAngle / scrollMin;
+      const thumbStart = sectorStart + progress * travel;
+      const thumbEnd = thumbStart + thumbSpan;
+      thumb.setAttribute(
+        "d",
+        annularSectorPath(
+          thumbStart + SCROLLBAR_PAD,
+          thumbEnd - SCROLLBAR_PAD,
+          SCROLLBAR_OUTER,
+          SCROLLBAR_INNER
+        )
+      );
+    }
+
+    function layoutSubmenu(scrollAngle) {
+      if (!submenuState) return;
+      const { sectorStart, slice, buttons, labelR } = submenuState;
+
+      buttons.forEach((btn, i) => {
+        const start = sectorStart + i * slice + SUB_PAD + scrollAngle;
+        const end = sectorStart + (i + 1) * slice - SUB_PAD + scrollAngle;
+        const mid = (start + end) / 2;
+        btn.path.setAttribute("d", annularSectorPath(start, end, SUB_OUTER, SUB_INNER));
+        const pos = polar(CX, CY, labelR, mid);
+        paintSubLabel(btn.text, btn.label, pos.x, pos.y, normalizeAngle(mid));
+      });
+
+      updateScrollbarThumb(scrollAngle);
+    }
+
+    function animateSubmenuScroll() {
+      if (!submenuState) return;
+      const state = submenuState;
+      state.scroll += (state.target - state.scroll) * 0.28;
+      if (Math.abs(state.target - state.scroll) < 0.04) {
+        state.scroll = state.target;
+        state.raf = null;
+        layoutSubmenu(state.scroll);
+        return;
+      }
+      layoutSubmenu(state.scroll);
+      state.raf = requestAnimationFrame(animateSubmenuScroll);
+    }
+
+    function setSubmenuScrollTarget(nextAngle, immediate = false) {
+      if (!submenuState?.scrollable) return;
+      const clamped = Math.max(submenuState.scrollMin, Math.min(0, nextAngle));
+      if (immediate) {
+        if (submenuState.raf) {
+          cancelAnimationFrame(submenuState.raf);
+          submenuState.raf = null;
+        }
+        submenuState.target = clamped;
+        submenuState.scroll = clamped;
+        layoutSubmenu(clamped);
+        return;
+      }
+      if (clamped === submenuState.target) return;
+      submenuState.target = clamped;
+      if (submenuState.raf == null) {
+        submenuState.raf = requestAnimationFrame(animateSubmenuScroll);
+      }
+    }
+
+    function scrubScrollbarToAngle(angle) {
+      if (!submenuState?.scrollable) return;
+      const { sectorStart, scrollMin, thumbSpan } = submenuState;
+      const travel = Math.max(0, STEP - thumbSpan);
+      if (travel <= 0 || scrollMin >= 0) return;
+
+      let rel = normalizeAngle(angle - sectorStart);
+      if (rel > STEP) {
+        rel = rel > (STEP + 360) / 2 ? 0 : STEP;
+      }
+      rel = Math.max(0, Math.min(STEP, rel));
+
+      let thumbStart = sectorStart + rel - thumbSpan / 2;
+      thumbStart = Math.max(sectorStart, Math.min(sectorStart + travel, thumbStart));
+      const progress = (thumbStart - sectorStart) / travel;
+      setSubmenuScrollTarget(progress * scrollMin, true);
+    }
+
+    function onScrollbarPointerMove(event) {
+      if (!scrollbarDragging) return;
+      event.preventDefault();
+      scrubScrollbarToAngle(clientToRingAngle(event));
+    }
+
+    function beginScrollbarDrag(event) {
+      if (!submenuState?.scrollable) return;
+      event.preventDefault();
+      event.stopPropagation();
+      scrollbarDragging = true;
+      if (submenuState.thumb) {
+        submenuState.thumb.classList.add("is-dragging");
+      }
+      scrubScrollbarToAngle(clientToRingAngle(event));
+      window.addEventListener("pointermove", onScrollbarPointerMove);
+      window.addEventListener("pointerup", endScrollbarDrag);
+      window.addEventListener("pointercancel", endScrollbarDrag);
+    }
+
+    function onSubmenuWheel(event) {
+      if (
+        !submenuState?.scrollable ||
+        !submenuGroup.classList.contains("is-open") ||
+        submenuGroup.classList.contains("is-closing")
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const dir = event.deltaY > 0 ? -1 : event.deltaY < 0 ? 1 : 0;
+      if (!dir) return;
+      setSubmenuScrollTarget(submenuState.target + dir * submenuState.slice);
+    }
+
     function buildSubmenu(index) {
       clearSubmenu();
       const section = SECTIONS[index];
@@ -1316,18 +1588,61 @@
 
       const sectorStart = index * STEP;
       const sectorEnd = sectorStart + STEP;
-      const slice = (sectorEnd - sectorStart) / items.length;
+      const scrollable = items.length > SUB_MAX_VISIBLE;
+      const slice = STEP / (scrollable ? SUB_MAX_VISIBLE : items.length);
+      const scrollMin = scrollable ? -(items.length * slice - STEP) : 0;
       const labelR = (SUB_INNER + SUB_OUTER) / 2;
+      const thumbSpan = scrollable
+        ? STEP * (SUB_MAX_VISIBLE / items.length)
+        : STEP;
+
+      // 命中区覆盖滚动条缝隙 + 二级菜单，便于悬停滚轮
+      const hitArea = svgEl("path", {
+        class: "submenu-hit",
+        d: annularSectorPath(
+          sectorStart,
+          sectorEnd,
+          SUB_OUTER + 5,
+          OUTER + 0.4
+        ),
+        "aria-hidden": "true"
+      });
+      submenuGroup.appendChild(hitArea);
+
+      /** @type {SVGPathElement | null} */
+      let thumb = null;
+      if (scrollable) {
+        const scrollbar = svgEl("g", {
+          class: "submenu-scrollbar",
+          role: "scrollbar",
+          "aria-orientation": "vertical",
+          "aria-label": "二级菜单滚动条"
+        });
+        const track = svgEl("path", {
+          class: "scrollbar-track",
+          d: annularSectorPath(
+            sectorStart + SCROLLBAR_PAD,
+            sectorEnd - SCROLLBAR_PAD,
+            SCROLLBAR_OUTER,
+            SCROLLBAR_INNER
+          )
+        });
+        thumb = svgEl("path", { class: "scrollbar-thumb" });
+        track.addEventListener("pointerdown", beginScrollbarDrag);
+        thumb.addEventListener("pointerdown", beginScrollbarDrag);
+        scrollbar.appendChild(track);
+        scrollbar.appendChild(thumb);
+        submenuGroup.appendChild(scrollbar);
+      }
+
+      const track = svgEl("g", { class: "submenu-track" });
+      /** @type {Array<{ path: SVGPathElement, text: SVGTextElement, label: string, index: number }>} */
+      const buttons = [];
 
       items.forEach((item, i) => {
         const label = submenuLabel(item);
-        const start = sectorStart + i * slice + SUB_PAD;
-        const end = sectorStart + (i + 1) * slice - SUB_PAD;
-        const mid = (start + end) / 2;
-
         const btn = svgEl("g", { class: "sub-btn", role: "menuitem" });
         const path = svgEl("path", {
-          d: annularSectorPath(start, end, SUB_OUTER, SUB_INNER),
           class: "sub-item",
           tabindex: "0",
           "aria-label": label
@@ -1344,15 +1659,37 @@
           }
         });
 
-        const pos = polar(CX, CY, labelR, mid);
         const text = svgEl("text", { class: "sub-label" });
-        paintSubLabel(text, label, pos.x, pos.y, mid);
-
         btn.appendChild(path);
         btn.appendChild(text);
-        submenuGroup.appendChild(btn);
+        track.appendChild(btn);
+        buttons.push({ path, text, label, index: i });
       });
+
+      submenuGroup.appendChild(track);
+
+      submenuState = {
+        sectorStart,
+        slice,
+        scrollMin,
+        scroll: 0,
+        target: 0,
+        scrollable,
+        labelR,
+        thumbSpan,
+        thumb,
+        buttons,
+        raf: null
+      };
+
+      if (scrollable) {
+        submenuGroup.classList.add("is-scrollable");
+      }
+
+      layoutSubmenu(0);
     }
+
+    submenuGroup.addEventListener("wheel", onSubmenuWheel, { passive: false });
 
     function openSubmenu(index) {
       if (submenuCloseTimer) {
@@ -1372,6 +1709,7 @@
       if (!submenuGroup.classList.contains("is-open") && !submenuGroup.childNodes.length) {
         return;
       }
+      endScrollbarDrag();
       submenuGroup.classList.remove("is-open");
       submenuGroup.classList.add("is-closing");
       if (submenuCloseTimer) clearTimeout(submenuCloseTimer);

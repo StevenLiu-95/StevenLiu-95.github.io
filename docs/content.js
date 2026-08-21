@@ -89,7 +89,10 @@ window.SITE_CONTENT = {
         { label: "前端方向" },
         { label: "渲染方向" },
         { label: "PCG方向" },
-        { label: "AI方向" }
+        { label: "其他方向" },
+        { label: "AI方向" },
+        { label: "工具链" },
+        { label: "实验向" }
       ]
     },
     {
@@ -104,7 +107,6 @@ window.SITE_CONTENT = {
       submenu: [
         { label: "项目甲" },
         { label: "项目乙" },
-        { label: "项目丙" },
         { label: "项目丁" }
       ]
     },
