@@ -221,6 +221,112 @@
       margin-bottom: 0;
     }
 
+    .stage-block .stage-videos {
+      margin-top: 0.85rem;
+    }
+
+    .stage-work {
+      margin: 1.15rem 0 0;
+      padding: 0.95rem 0 0.35rem;
+      border-top: 1px solid rgba(0, 170, 255, 0.16);
+    }
+
+    .stage-work:first-of-type {
+      margin-top: 0.75rem;
+    }
+
+    .stage-block > .stage-work:first-of-type {
+      border-top-color: rgba(0, 170, 255, 0.22);
+    }
+
+    .stage-work-title {
+      margin: 0 0 0.55rem;
+      font-family: "Orbitron", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: clamp(0.98rem, 1.8vw, 1.12rem);
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      line-height: 1.35;
+      color: rgba(170, 230, 255, 0.92);
+      text-shadow: 0 0 14px rgba(0, 170, 255, 0.22);
+    }
+
+    .stage-work-desc {
+      margin: 0 0 0.35rem;
+    }
+
+    .stage-work-desc p {
+      margin: 0 0 0.45rem;
+    }
+
+    .stage-work-desc p:last-child {
+      margin-bottom: 0;
+    }
+
+    .stage-work-link {
+      margin: 0.75rem 0 0;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+    }
+
+    .stage-work-link a {
+      color: #7ad8ff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 170, 255, 0.35);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stage-work-link a:hover,
+    .stage-work-link a:focus-visible {
+      color: #b8f0ff;
+      border-bottom-color: rgba(180, 240, 255, 0.7);
+    }
+
+    .stage-videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+      gap: 0.95rem 1rem;
+    }
+
+    .stage-work .stage-videos {
+      margin-top: 0.75rem;
+    }
+
+    .stage-video {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      min-width: 0;
+    }
+
+    .stage-video video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: rgba(0, 8, 16, 0.85);
+      border: 1px solid rgba(0, 170, 255, 0.28);
+      box-shadow:
+        0 0 0 1px rgba(0, 170, 255, 0.06) inset,
+        0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .stage-video-title {
+      margin: 0;
+      font-family: "Orbitron", "Microsoft YaHei", "PingFang SC", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: rgba(170, 230, 255, 0.92);
+    }
+
+    .stage-video-note {
+      margin: 0;
+      font-size: 0.86rem;
+      letter-spacing: 0.03em;
+      line-height: 1.55;
+      color: rgba(180, 220, 245, 0.62);
+    }
+
     /* 主题滚动条 */
     .stage-card {
       scrollbar-width: thin;
@@ -297,6 +403,18 @@
 
     .stage.is-open .stage-block:nth-child(5) {
       animation-delay: 0.72s;
+    }
+
+    .stage.is-open .stage-block:nth-child(6) {
+      animation-delay: 0.82s;
+    }
+
+    .stage.is-open .stage-block:nth-child(7) {
+      animation-delay: 0.92s;
+    }
+
+    .stage.is-open .stage-block:nth-child(n+8) {
+      animation-delay: 1s;
     }
 
     @keyframes line-in {
@@ -904,6 +1022,17 @@
     let SECTIONS = [];
     /** @type {Record<string, any>} */
     let UI = {};
+    /** 视频资源目录（相对页面路径），可在 content.js 的 media.videosDir 覆盖 */
+    let VIDEOS_DIR = "videos/";
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
     function applyShellContent(data) {
       if (data.document?.title) {
@@ -930,6 +1059,11 @@
       if (ring && UI.ariaLabel) {
         ring.setAttribute("aria-label", UI.ariaLabel);
       }
+
+      const media = data.media || {};
+      if (media.videosDir) {
+        VIDEOS_DIR = String(media.videosDir);
+      }
     }
 
     function submenuLabel(item) {
@@ -941,14 +1075,116 @@
       return template.replace("{title}", title);
     }
 
+    function joinMediaPath(dir, file) {
+      const base = String(dir || "").replace(/\\/g, "/").replace(/\/?$/, "/");
+      const name = String(file || "").replace(/^\/+/, "");
+      return base + name;
+    }
+
     function paragraphsHtml(lines) {
       return (lines || [])
         .filter((line) => typeof line === "string" && line.trim())
-        .map((line) => `<p>${line}</p>`)
+        .map((line) => `<p>${escapeHtml(line)}</p>`)
         .join("");
     }
 
-    /** 分区正文：可选总述 + 与二级菜单对齐的子标题段落 */
+    function normalizeVideoItem(entry) {
+      if (typeof entry === "string") {
+        const file = entry.trim();
+        if (!file) return null;
+        return { file, title: "", note: "" };
+      }
+      if (!entry || typeof entry !== "object") return null;
+      const file = String(entry.file || entry.src || "").trim();
+      if (!file) return null;
+      return {
+        file,
+        title: String(entry.title || "").trim(),
+        note: String(entry.note || entry.caption || "").trim()
+      };
+    }
+
+    function normalizeDescription(value) {
+      if (typeof value === "string" && value.trim()) return [value.trim()];
+      if (Array.isArray(value)) {
+        return value.filter((line) => typeof line === "string" && line.trim());
+      }
+      return [];
+    }
+
+    function normalizeWorkLink(value) {
+      if (!value) return null;
+      if (typeof value === "string") {
+        const url = value.trim();
+        if (!url) return null;
+        return { url, label: "访问链接" };
+      }
+      if (typeof value === "object") {
+        const url = String(value.url || value.href || "").trim();
+        if (!url) return null;
+        const label = String(value.label || value.text || "访问链接").trim() || "访问链接";
+        return { url, label };
+      }
+      return null;
+    }
+
+    function videosHtml(entries) {
+      const list = (entries || []).map(normalizeVideoItem).filter(Boolean);
+      if (!list.length) return "";
+
+      const cards = list
+        .map((item) => {
+          const src = escapeHtml(joinMediaPath(VIDEOS_DIR, item.file));
+          const title = item.title
+            ? `<p class="stage-video-title">${escapeHtml(item.title)}</p>`
+            : "";
+          const note = item.note
+            ? `<p class="stage-video-note">${escapeHtml(item.note)}</p>`
+            : "";
+          return (
+            `<figure class="stage-video">` +
+              `<video controls preload="metadata" playsinline src="${src}"></video>` +
+              title +
+              note +
+            `</figure>`
+          );
+        })
+        .join("");
+
+      return `<div class="stage-videos">${cards}</div>`;
+    }
+
+    function workItemHtml(work) {
+      if (!work || typeof work !== "object") return "";
+      const title = String(work.title || work.label || work.name || "").trim();
+      const description = normalizeDescription(
+        work.description ?? work.desc ?? work.body
+      );
+      const videos = Array.isArray(work.videos) ? work.videos : [];
+      const link = normalizeWorkLink(work.link || work.url || work.href);
+      const hasVideos = videos.map(normalizeVideoItem).some(Boolean);
+      if (!title && !description.length && !hasVideos && !link) return "";
+
+      return (
+        `<article class="stage-work">` +
+          (title ? `<h4 class="stage-work-title">${escapeHtml(title)}</h4>` : "") +
+          (description.length
+            ? `<div class="stage-work-desc">${paragraphsHtml(description)}</div>`
+            : "") +
+          (hasVideos ? videosHtml(videos) : "") +
+          (link
+            ? `<p class="stage-work-link"><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a></p>`
+            : "") +
+        `</article>`
+      );
+    }
+
+    function worksHtml(entries) {
+      if (!Array.isArray(entries) || !entries.length) return "";
+      return entries.map(workItemHtml).filter(Boolean).join("");
+    }
+
+    /** 分区正文：可选总述 + 与二级菜单对齐的分类块（支持作品层级） */
     function renderStageBody(section) {
       const chunks = [];
 
@@ -958,17 +1194,35 @@
 
       (section.submenu || []).forEach((item, index) => {
         const label = submenuLabel(item);
+        if (!label) return;
+
         const body = typeof item === "string" ? null : item?.body;
-        if (!label || !Array.isArray(body) || !body.length) return;
+        const videos = typeof item === "string" ? null : item?.videos;
+        const works = typeof item === "string" ? null : item?.works;
+        const hasBody = Array.isArray(body) && body.length > 0;
+        const hasVideos = Array.isArray(videos) && videos.length > 0;
+        const worksMarkup = worksHtml(works);
+        if (!hasBody && !hasVideos && !worksMarkup) return;
+
         chunks.push(
           `<section class="stage-block" id="stage-block-${index}" data-sub-index="${index}">` +
-            `<h3 class="stage-subtitle">${label}</h3>` +
-            paragraphsHtml(body) +
-            `</section>`
+            `<h3 class="stage-subtitle">${escapeHtml(label)}</h3>` +
+            (hasBody ? paragraphsHtml(body) : "") +
+            worksMarkup +
+            (hasVideos ? videosHtml(videos) : "") +
+          `</section>`
         );
       });
 
       return chunks.join("");
+    }
+
+    function pauseStageVideos() {
+      const card = document.getElementById("stage-card");
+      if (!card) return;
+      card.querySelectorAll("video").forEach((video) => {
+        video.pause();
+      });
     }
 
     let stageJumpTimer = null;
@@ -1766,6 +2020,7 @@
     function closeSection() {
       if (!isOpen) return;
 
+      pauseStageVideos();
       const dock = DOCK_BY_INDEX[activeIndex];
       isOpen = false;
       activeIndex = -1;

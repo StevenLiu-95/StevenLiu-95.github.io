@@ -22,6 +22,10 @@ window.SITE_CONTENT = {
     kickerPlaceholder: "分区",
     titlePlaceholder: "标题"
   },
+  /** 媒体资源路径（相对 docs/index.html） */
+  media: {
+    videosDir: "videos/"
+  },
   sections: [
     {
       id: "resume",
@@ -81,18 +85,132 @@ window.SITE_CONTENT = {
       label: "作品",
       kicker: "Works",
       title: "个人作品",
-      body: [
-        "此处列出你擅长的技术、工具或方法论。可用清单或短段落呈现。",
-        "示例：前端、交互、视觉、自动化等——按你的真实能力改写。"
-      ],
+      /**
+       * 层级：
+       * 作品分区
+       * └─ 分类（submenu.label，对应二级扇环）
+       *    └─ 作品（works[]）
+       *       ├─ description 描述
+       *       ├─ videos[]    视频（file 对应 videos/ 下文件名）
+       *       └─ link        访问链接（可选）
+       */
       submenu: [
-        { label: "前端方向" },
-        { label: "渲染方向" },
-        { label: "PCG方向" },
-        { label: "其他方向" },
-        { label: "AI方向" },
-        { label: "工具链" },
-        { label: "实验向" }
+        {
+          label: "独立游戏",
+          body: ["独立游戏相关作品集。"],
+          works: [
+            {
+              title: "《悟空·灵境行者》",
+              description: [
+                "个人独立游戏项目"
+              ],
+              videos: [
+                { file: "ColorfulCloth1.mp4", title: "视频1" }
+              ],
+              link: {
+                url: "https://github.com/StevenLiu-95",
+                label: "访问链接"
+              }
+            },
+            {
+              title: "作品B",
+              description: ["另一款独立游戏作品的简介。"],
+              videos: [
+                { file: "indie-b-01.mp4", title: "视频1" }
+              ]
+            },
+            {
+              title: "作品C",
+              description: ["可继续追加更多作品条目。"],
+              videos: [
+                { file: "indie-c-01.mp4", title: "视频1" }
+              ]
+            }
+          ]
+        },
+        {
+          label: "程序化生成",
+          body: ["PCG / 程序化内容相关作品。"],
+          works: [
+            {
+              title: "作品A",
+              description: ["程序化生成方案与效果说明。"],
+              videos: [
+                { file: "pcg-a-01.mp4", title: "视频1" },
+                { file: "pcg-a-02.mp4", title: "视频2" }
+              ]
+            }
+          ]
+        },
+        {
+          label: "工具开发",
+          body: ["工具、插件或管线相关作品。"],
+          works: [
+            {
+              title: "作品A",
+              description: ["工具用途、技术栈与使用方式。"],
+              videos: [
+                { file: "tool-a-01.mp4", title: "视频1" }
+              ],
+              link: "https://github.com/StevenLiu-95"
+            }
+          ]
+        },
+        {
+          label: "Shader/特效",
+          body: ["Shader、特效与渲染表现相关作品。"],
+          works: [
+            {
+              title: "镭射布料",
+              description: ["基于 Unity Shader 的镭射效果实现"],
+              videos: [
+                { file: "ColorfulCloth1.mp4", title: "尼龙镭射" },
+                { file: "ColorfulCloth2.mp4", title: "尼龙镭射" },
+                { file: "ColorfulCloth3.mp4", title: "镭射" },
+                { file: "ColorfulCloth4.mp4", title: "镭射" }
+              ]
+            }
+          ]
+        },
+        {
+          label: "AIGC",
+          body: ["AI / AIGC 相关创作与工作流。"],
+          works: [
+            {
+              title: "作品A",
+              description: ["工作流与产出说明。"],
+              videos: [
+                { file: "aigc-a-01.mp4", title: "视频1" }
+              ]
+            }
+          ]
+        },
+        {
+          label: "动画作品",
+          body: ["动画与镜头相关作品。"],
+          works: [
+            {
+              title: "作品A",
+              description: ["镜头设计与制作说明。"],
+              videos: [
+                { file: "anim-a-01.mp4", title: "视频1" }
+              ]
+            }
+          ]
+        },
+        {
+          label: "建模作品",
+          body: ["建模与资产相关展示。"],
+          works: [
+            {
+              title: "作品A",
+              description: ["资产类型与制作流程说明。"],
+              videos: [
+                { file: "model-a-01.mp4", title: "视频1" }
+              ]
+            }
+          ]
+        }
       ]
     },
     {
